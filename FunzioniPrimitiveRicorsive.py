@@ -44,7 +44,7 @@ def prim_rec(g, h):
             return h(*args[:-1], y, recursive_result)  # chiama h(x1, ..., xk, y, f(x1, ..., xk, y))
     return recursive_function;
 
-def ricorsione_primitiva(x, g, h): # x = (x1, ..., xk), g e h sono funzioni primitive ricorsive
+def ricorsione_primitiva(x, y, g, h): # x = (x1, ..., xk), g e h sono funzioni primitive ricorsive
     F = g(*x); # F(x) = g(x1, ..., xk)
     for i in range(y): # per i = 0, ..., n - 1
         F = h(*x, i, F); # F(x, i + 1) = h(x1, ..., xk, i, F(x, i))
@@ -189,3 +189,76 @@ print("div(17, 3) = ", div(17, 3)); # 5
 print("min(20, 7) = ", min(20, 7)); # 7
 print("max(20, 7) = ", max(20, 7)); # 20
 print("sum(21, 21) = ", sum(21, 21)); # 42
+print();
+
+
+# Esercizio 11.7
+
+# 2) funzione che dato x, restituisce True se x è primo, False altrimenti
+def is_prime(x):
+    if(x < 2):
+        return False;
+    for i in range(2, x):
+        if(mod(x, i) == 0):
+            return False;
+    return True;
+
+# 3) funzione p, che dato x, restituisce l'x-esimo numero primo
+def p(x):
+    # caso base
+    if(x == 0):
+        return 0;
+    count = 0; # contatore dei numeri primi trovati
+    num = 1; # numero da testare
+    while(count < x):
+        num = num + 1; # incrementa il numero da testare
+        if(is_prime(num) == True):
+            count = count + 1; # incrementa il contatore se num è primo
+    return num; # restituisce l'x-esimo numero primo trovato
+
+# 4) funzione che restituisce l'esponente di p(y) nella fattorizzazione di x
+def exponent(x, y):
+    if(x == 0):
+        return 0;
+    else:
+        p_y = p(y); # calcola p(y)
+        count = 0; # contatore dell'esponente
+        while(mod(x, p_y) == 0): # finché x è divisibile per p(y)
+            x = div(x, p_y); # divide x per p(y)
+            count = count + 1; # incrementa il contatore
+        return count;
+
+# 5) funzione che restituisce 1 se e solo se x è un cubo perfetto
+def is_perfect_cube(x):
+    if(x < 0):
+        return 0; # i cubi perfetti sono non negativi
+    y = 0; # candidato al cubo perfetto
+    while(pow(y, 3) < x): # finché y^3 è minore di x
+        y = y + 1; # incrementa y
+    if(pow(y, 3) == x):
+        return 1; # x è un cubo perfetto
+    else:
+        return 0; # x non è un cubo perfetto
+
+# 6) funzione che restituisce 1 se e solo se x è ottenibile come somma di due cubi perfetti
+def is_sum_of_two_perfect_cubes(x):
+    if(x < 0):
+        return 0; # la somma di due cubi perfetti è non negativa
+    for y in range(0, x + 1): # y è il primo cubo perfetto
+        for z in range(0, x + 1): # z è il secondo cubo perfetto
+            if(pow(y, 3) + pow(z, 3) == x):
+                return 1; # x è ottenibile come somma di due cubi perfetti
+    return 0; # x non è ottenibile come somma di due cubi perfetti
+
+# TEST ESERCIZIO 11.7
+print("TEST ESERCIZIO 11.7");
+print("is_prime(7) = ", is_prime(7)); # 1
+print("is_prime(10) = ", is_prime(10)); # 0
+print("p(5) = ", p(5)); # 11
+print("exponent(60, 1) = ", exponent(60, 1)); # 2 (60 = 2^2 * 3^1 * 5^1)
+print("exponent(60, 2) = ", exponent(60, 2)); # 1 (60 = 2^2 * 3^1 * 5^1)
+print("exponent(60, 3) = ", exponent(60, 3)); # 1 (60 = 2^2 * 3^1 * 5^1)
+print("is_perfect_cube(27) = ", is_perfect_cube(27)); # 1
+print("is_perfect_cube(28) = ", is_perfect_cube(28)); # 0
+print("is_sum_of_two_perfect_cubes(28) = ", is_sum_of_two_perfect_cubes(28)); # 1 (28 = 1^3 + 3^3)
+print("is_sum_of_two_perfect_cubes(29) = ", is_sum_of_two_perfect_cubes(29)); # 0
