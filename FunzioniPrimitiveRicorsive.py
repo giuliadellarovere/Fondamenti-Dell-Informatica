@@ -82,11 +82,11 @@ def pred(x):
         return ( x - 1 );
 
 # sottazione
-def sub(x, y):
+def diff(x, y):
     if(y == 0):
         return x;
     else:
-        return pred(sub(x, y - 1));
+        return pred(diff(x, y - 1));
 
 # fattoriale
 def fact(y):
@@ -134,6 +134,40 @@ def div(y, x):
         else:
             divisione = div_prec;
         return divisione;
+
+# minimo
+def min(x, y):
+    minimo = diff(x, diff(x, y));
+    return minimo;
+
+# massimo 
+def max(x, y):
+    massimo = sum(x, diff(y, x));
+    return massimo;
+
+# somma
+def sum(x, y):
+    if(y == 0):
+        return x;
+    else:
+        return succ(sum(x, y - 1));
+
+# produttora
+# sommatoria
+
+# mu-operatore-limitato
+# sia f primitiva ricorsiva n+1 aria
+# g(x1, ..., xn, y) = mu*z < y*( f(x1, ..., xn, z) = 0 )
+# mu*z < y*( f(x1, ..., xn, z) = 0 ) = 0 se esiste z < y tale che f(x1, ..., xn, z) = 0
+def mu_operatore_limitato(f, x, y):
+    z = 0;
+    found = False;
+    while(not found and z < y):
+        if(f(*x, z) == 0):
+            found = True;
+        else:
+            z = z + 1;
+    return z;
         
 
 #-------------------------------------------------------------------------------------------
@@ -143,7 +177,7 @@ print("mul(3, 4) = ", mul(3, 4)); # 12
 print("pow(2, 5) = ", pow(2, 5)); # 32
 print("hyperpow(2, 3) = ", hyperpow(2, 3)); # 16
 print("pred(5) = ", pred(5)); # 4   
-print("sub(5, 3) = ", sub(5, 3)); # 2
+print("diff(5, 3) = ", diff(5, 3)); # 2
 print("fact(5) = ", fact(5)); # 120
 print("sign(0) = ", sign(0)); # 0
 print("sign(5) = ", sign(5)); # 1
@@ -151,3 +185,7 @@ print("ite(5, 3, 4, lambda x,y,z: x+y+z, lambda x,y,z: x*y*z) = ", ite(5, 3, 4, 
 print("ite(5, 4, 3, lambda x,y,z: x+y+z, lambda x,y,z: x*y*z) = ", ite(5, 4, 3, lambda x,y,z: x+y+z, lambda x,y,z: x*y*z)); # 60
 print("mod(17, 3) = ", mod(17, 3)); # 2
 print("div(17, 3) = ", div(17, 3)); # 5
+
+print("min(20, 7) = ", min(20, 7)); # 7
+print("max(20, 7) = ", max(20, 7)); # 20
+print("sum(21, 21) = ", sum(21, 21)); # 42
